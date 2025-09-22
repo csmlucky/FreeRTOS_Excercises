@@ -50,9 +50,9 @@
 void SystemClock_Config(void);
 static void MX_GPIO_Init(void);
 /* USER CODE BEGIN PFP */
-static void user_led (void);
-static void gpioA_pin6 (void);
-static void gpioA_pin7(void);
+static void user_led (void *param);
+static void gpioA_pin6 (void *param);
+static void gpioA_pin7(void *param);
 /* USER CODE END PFP */
 
 /* Private user code ---------------------------------------------------------*/
@@ -93,13 +93,13 @@ int main(void)
   MX_GPIO_Init();
   /* USER CODE BEGIN 2 */
 
-  status = xTaskCreate(user_led, "User_LED", 200, NULL, 2, led_Handle);
+  status = xTaskCreate(user_led, "User_LED", 200, NULL, 2, &led_Handle);
   configASSERT(status != pdPASS);
 
-  status = xTaskCreate(gpioA_pin6, "portA6_Toggle", 200, NULL, gpioA6_Handle);
+  status = xTaskCreate(gpioA_pin6, "portA6_Toggle", 200, NULL, 2, &gpioA6_Handle);
   configASSERT(status != pdPASS);
 
-  status = xTaskCreate(gpioA_pin7, "portA&_Toggle", 200, NULL, gpioA7_Handle);
+  status = xTaskCreate(gpioA_pin7, "portA&_Toggle", 200, NULL, 2, &gpioA7_Handle);
   configASSERT(status != pdPASS);
 
 
@@ -216,15 +216,24 @@ static void MX_GPIO_Init(void)
 }
 
 /* USER CODE BEGIN 4 */
-void user_led(void){
+void user_led(void *param){
+
+ HAL_GPIO_TogglePin(GPIOA, GPIO_PIN_5);
+ taskYIELD();
 
 }
 
-void gpioA_pin6(void){
+void gpioA_pin6(void *param){
+
+	HAL_GPIO_TogglePin(GPIOA, GPIO_PIN_6);
+	taskYIELD();
 
 }
 
-void gpioA_pin7(void){
+void gpioA_pin7(void *param){
+
+	HAL_GPIO_TogglePin(GPIOA, GPIO_PIN_7);
+	taskYIELD();
 
 }
 
