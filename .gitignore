@@ -1,0 +1,26 @@
+# Eclipse/STM32CubeIDE metadata (don’t sync)
+.metadata/
+RemoteSystemsTempFiles/
+
+# Build directories
+**/Debug/
+**/Release/
+
+# Temporary files
+**/*.log
+**/*.launch
+**/*.tmp
+**/*.bak
+**/*.swp
+
+# Object and binary files
+**/*.o
+**/*.elf
+**/*.map
+**/*.bin
+**/*.hex
+**/*.list
+
+# IDE Indexer
+**/.settings/
+**/.ipch/
