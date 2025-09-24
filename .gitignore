@@ -24,3 +24,4 @@ RemoteSystemsTempFiles/
 # IDE Indexer
 **/.settings/
 **/.ipch/
+**/.mxproject

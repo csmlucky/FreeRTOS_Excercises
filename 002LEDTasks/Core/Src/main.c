@@ -32,7 +32,7 @@
 
 /* Private define ------------------------------------------------------------*/
 /* USER CODE BEGIN PD */
-
+#define DWT_CTRL_REG 		(*(volatile uint32_t *)0xE0001000)
 /* USER CODE END PD */
 
 /* Private macro -------------------------------------------------------------*/
@@ -53,6 +53,8 @@ static void MX_GPIO_Init(void);
 static void user_led (void *param);
 static void gpioA_pin6 (void *param);
 static void gpioA_pin7(void *param);
+
+extern  void SEGGER_UART_init(uint32_t);
 /* USER CODE END PFP */
 
 /* Private user code ---------------------------------------------------------*/
@@ -92,15 +94,29 @@ int main(void)
   /* Initialize all configured peripherals */
   MX_GPIO_Init();
   /* USER CODE BEGIN 2 */
+  //Enable the Data watch
+  DWT_CTRL_REG |= (1 << 0);
+
+  //Enable Segger uart continuous record
+  SEGGER_UART_init(500000);
+
+  //Enable Segger and call
+  SEGGER_SYSVIEW_Conf();
+  //SEGGER_SYSVIEW_Start();
 
   status = xTaskCreate(user_led, "User_LED", 200, NULL, 2, &led_Handle);
-  configASSERT(status != pdPASS);
+  configASSERT(status == pdPASS);
 
   status = xTaskCreate(gpioA_pin6, "portA6_Toggle", 200, NULL, 2, &gpioA6_Handle);
-  configASSERT(status != pdPASS);
+  configASSERT(status == pdPASS);
 
   status = xTaskCreate(gpioA_pin7, "portA&_Toggle", 200, NULL, 2, &gpioA7_Handle);
-  configASSERT(status != pdPASS);
+  configASSERT(status == pdPASS);
+
+  //start the freertos scheduler
+  vTaskStartScheduler();
+
+  //if control comes here means there is not enough heap memory to launch the scheduler
 
 
 
@@ -129,7 +145,7 @@ void SystemClock_Config(void)
   /** Configure the main internal regulator output voltage
   */
   __HAL_RCC_PWR_CLK_ENABLE();
-  __HAL_PWR_VOLTAGESCALING_CONFIG(PWR_REGULATOR_VOLTAGE_SCALE3);
+  __HAL_PWR_VOLTAGESCALING_CONFIG(PWR_REGULATOR_VOLTAGE_SCALE1);
 
   /** Initializes the RCC Oscillators according to the specified parameters
   * in the RCC_OscInitTypeDef structure.
@@ -139,12 +155,19 @@ void SystemClock_Config(void)
   RCC_OscInitStruct.HSICalibrationValue = RCC_HSICALIBRATION_DEFAULT;
   RCC_OscInitStruct.PLL.PLLState = RCC_PLL_ON;
   RCC_OscInitStruct.PLL.PLLSource = RCC_PLLSOURCE_HSI;
-  RCC_OscInitStruct.PLL.PLLM = 16;
-  RCC_OscInitStruct.PLL.PLLN = 336;
-  RCC_OscInitStruct.PLL.PLLP = RCC_PLLP_DIV4;
+  RCC_OscInitStruct.PLL.PLLM = 8;
+  RCC_OscInitStruct.PLL.PLLN = 180;
+  RCC_OscInitStruct.PLL.PLLP = RCC_PLLP_DIV2;
   RCC_OscInitStruct.PLL.PLLQ = 2;
   RCC_OscInitStruct.PLL.PLLR = 2;
   if (HAL_RCC_OscConfig(&RCC_OscInitStruct) != HAL_OK)
+  {
+    Error_Handler();
+  }
+
+  /** Activate the Over-Drive mode
+  */
+  if (HAL_PWREx_EnableOverDrive() != HAL_OK)
   {
     Error_Handler();
   }
@@ -155,10 +178,10 @@ void SystemClock_Config(void)
                               |RCC_CLOCKTYPE_PCLK1|RCC_CLOCKTYPE_PCLK2;
   RCC_ClkInitStruct.SYSCLKSource = RCC_SYSCLKSOURCE_PLLCLK;
   RCC_ClkInitStruct.AHBCLKDivider = RCC_SYSCLK_DIV1;
-  RCC_ClkInitStruct.APB1CLKDivider = RCC_HCLK_DIV2;
-  RCC_ClkInitStruct.APB2CLKDivider = RCC_HCLK_DIV1;
+  RCC_ClkInitStruct.APB1CLKDivider = RCC_HCLK_DIV4;
+  RCC_ClkInitStruct.APB2CLKDivider = RCC_HCLK_DIV2;
 
-  if (HAL_RCC_ClockConfig(&RCC_ClkInitStruct, FLASH_LATENCY_2) != HAL_OK)
+  if (HAL_RCC_ClockConfig(&RCC_ClkInitStruct, FLASH_LATENCY_5) != HAL_OK)
   {
     Error_Handler();
   }
@@ -173,7 +196,7 @@ static void MX_GPIO_Init(void)
 {
   GPIO_InitTypeDef GPIO_InitStruct = {0};
   /* USER CODE BEGIN MX_GPIO_Init_1 */
-  GPIO_InitTypeDef GPIO_InitTask = {0};
+  //GPIO_InitTypeDef GPIO_InitTask = {0};
   /* USER CODE END MX_GPIO_Init_1 */
 
   /* GPIO Ports Clock Enable */
@@ -183,7 +206,7 @@ static void MX_GPIO_Init(void)
   __HAL_RCC_GPIOB_CLK_ENABLE();
 
   /*Configure GPIO pin Output Level */
-  HAL_GPIO_WritePin(LD2_GPIO_Port, LD2_Pin, GPIO_PIN_RESET);
+  HAL_GPIO_WritePin(GPIOA, LD2_Pin|PA6_task_Pin|pa7_task_Pin, GPIO_PIN_RESET);
 
   /*Configure GPIO pin : B1_Pin */
   GPIO_InitStruct.Pin = B1_Pin;
@@ -199,18 +222,18 @@ static void MX_GPIO_Init(void)
   GPIO_InitStruct.Alternate = GPIO_AF7_USART2;
   HAL_GPIO_Init(GPIOA, &GPIO_InitStruct);
 
-  /*Configure GPIO pin : LD2_Pin */
-  GPIO_InitStruct.Pin = LD2_Pin;
+  /*Configure GPIO pins : LD2_Pin PA6_task_Pin pa7_task_Pin */
+  GPIO_InitStruct.Pin = LD2_Pin|PA6_task_Pin|pa7_task_Pin;
   GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
   GPIO_InitStruct.Pull = GPIO_NOPULL;
   GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
-  HAL_GPIO_Init(LD2_GPIO_Port, &GPIO_InitStruct);
+  HAL_GPIO_Init(GPIOA, &GPIO_InitStruct);
 
   /* USER CODE BEGIN MX_GPIO_Init_2 */
-  GPIO_InitTask.Mode = GPIO_MODE_OUTPUT_PP;
-  GPIO_InitTask.Pin = GPIO_PIN_5 | GPIO_PIN_6 | GPIO_PIN_7;
+  //GPIO_InitTask.Mode = GPIO_MODE_OUTPUT_PP;
+  //GPIO_InitTask.Pin = GPIO_PIN_5 | GPIO_PIN_6 | GPIO_PIN_7;
 
-  HAL_GPIO_Init(GPIOA, &GPIO_InitTask);
+  //HAL_GPIO_Init(GPIOA, &GPIO_InitTask);
 
   /* USER CODE END MX_GPIO_Init_2 */
 }
@@ -218,26 +241,61 @@ static void MX_GPIO_Init(void)
 /* USER CODE BEGIN 4 */
 void user_led(void *param){
 
- HAL_GPIO_TogglePin(GPIOA, GPIO_PIN_5);
- taskYIELD();
+	while(1){
+		HAL_GPIO_TogglePin(GPIOA, GPIO_PIN_5);
+		HAL_Delay(1000);
+		SEGGER_SYSVIEW_PrintfTarget("user_led_task");
+		//taskYIELD();
+	}
+
 
 }
 
 void gpioA_pin6(void *param){
 
-	HAL_GPIO_TogglePin(GPIOA, GPIO_PIN_6);
-	taskYIELD();
+	while(1){
+		HAL_GPIO_TogglePin(GPIOA, GPIO_PIN_6);
+		HAL_Delay(800);
+		SEGGER_SYSVIEW_PrintfTarget("gpioa6_task");
+		//taskYIELD();
+	}
 
 }
 
 void gpioA_pin7(void *param){
 
-	HAL_GPIO_TogglePin(GPIOA, GPIO_PIN_7);
-	taskYIELD();
+	while(1){
+		HAL_GPIO_TogglePin(GPIOA, GPIO_PIN_7);
+		HAL_Delay(400);
+		SEGGER_SYSVIEW_PrintfTarget("gpioa7_task");
+		//taskYIELD();
+	}
 
 }
 
 /* USER CODE END 4 */
+
+/**
+  * @brief  Period elapsed callback in non blocking mode
+  * @note   This function is called  when TIM6 interrupt took place, inside
+  * HAL_TIM_IRQHandler(). It makes a direct call to HAL_IncTick() to increment
+  * a global variable "uwTick" used as application time base.
+  * @param  htim : TIM handle
+  * @retval None
+  */
+void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
+{
+  /* USER CODE BEGIN Callback 0 */
+
+  /* USER CODE END Callback 0 */
+  if (htim->Instance == TIM6)
+  {
+    HAL_IncTick();
+  }
+  /* USER CODE BEGIN Callback 1 */
+
+  /* USER CODE END Callback 1 */
+}
 
 /**
   * @brief  This function is executed in case of error occurrence.
