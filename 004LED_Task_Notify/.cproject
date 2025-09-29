@@ -33,8 +33,8 @@
 									<listOptionValue builtIn="false" value="DEBUG"/>
 								</option>
 								<option IS_BUILTIN_EMPTY="false" IS_VALUE_EMPTY="false" id="com.st.stm32cube.ide.mcu.gnu.managedbuild.tool.assembler.option.includepaths.1607484825" name="Include paths (-I)" superClass="com.st.stm32cube.ide.mcu.gnu.managedbuild.tool.assembler.option.includepaths" valueType="includePath">
-									<listOptionValue builtIn="false" value="&quot;D:\STM32CubeIDE\FreeRTOS\FreeRTOS_Workspace\Common\ThirdParty\SEGGER\SEGGER&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;D:\STM32CubeIDE\FreeRTOS\FreeRTOS_Workspace\Common\ThirdParty\SEGGER\Config&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;D:\STM32CubeIDE\FreeRTOS\FreeRTOS_Excercises\Common\ThirdParty\SEGGER\Config&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;D:\STM32CubeIDE\FreeRTOS\FreeRTOS_Excercises\Common\ThirdParty\SEGGER\SEGGER&quot;"/>
 								</option>
 								<inputType id="com.st.stm32cube.ide.mcu.gnu.managedbuild.tool.assembler.input.791083646" superClass="com.st.stm32cube.ide.mcu.gnu.managedbuild.tool.assembler.input"/>
 							</tool>
@@ -48,16 +48,15 @@
 								</option>
 								<option IS_BUILTIN_EMPTY="false" IS_VALUE_EMPTY="false" id="com.st.stm32cube.ide.mcu.gnu.managedbuild.tool.c.compiler.option.includepaths.746663717" name="Include paths (-I)" superClass="com.st.stm32cube.ide.mcu.gnu.managedbuild.tool.c.compiler.option.includepaths" useByScannerDiscovery="false" valueType="includePath">
 									<listOptionValue builtIn="false" value="../Core/Inc"/>
-									<listOptionValue builtIn="false" value="&quot;D:\STM32CubeIDE\FreeRTOS\FreeRTOS_Workspace\Common\ThirdParty\FreeRTOS&quot;"/>
 									<listOptionValue builtIn="false" value="../Drivers/STM32F4xx_HAL_Driver/Inc"/>
 									<listOptionValue builtIn="false" value="../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy"/>
 									<listOptionValue builtIn="false" value="../Drivers/CMSIS/Device/ST/STM32F4xx/Include"/>
 									<listOptionValue builtIn="false" value="../Drivers/CMSIS/Include"/>
-									<listOptionValue builtIn="false" value="&quot;D:\STM32CubeIDE\FreeRTOS\FreeRTOS_Workspace\Common\ThirdParty\FreeRTOS\include&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;D:\STM32CubeIDE\FreeRTOS\FreeRTOS_Workspace\Common\ThirdParty\FreeRTOS\portable\GCC\ARM_CM4F&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;D:\STM32CubeIDE\FreeRTOS\FreeRTOS_Workspace\Common\ThirdParty\SEGGER\Config&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;D:\STM32CubeIDE\FreeRTOS\FreeRTOS_Workspace\Common\ThirdParty\SEGGER\OS&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;D:\STM32CubeIDE\FreeRTOS\FreeRTOS_Workspace\Common\ThirdParty\SEGGER\SEGGER&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;D:\STM32CubeIDE\FreeRTOS\FreeRTOS_Excercises\Common\ThirdParty\FreeRTOS\include&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;D:\STM32CubeIDE\FreeRTOS\FreeRTOS_Excercises\Common\ThirdParty\SEGGER\SEGGER&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;D:\STM32CubeIDE\FreeRTOS\FreeRTOS_Excercises\Common\ThirdParty\SEGGER\OS&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;D:\STM32CubeIDE\FreeRTOS\FreeRTOS_Excercises\Common\ThirdParty\SEGGER\Config&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;D:\STM32CubeIDE\FreeRTOS\FreeRTOS_Excercises\Common\ThirdParty\FreeRTOS\portable\GCC\ARM_CM4F&quot;"/>
 								</option>
 								<inputType id="com.st.stm32cube.ide.mcu.gnu.managedbuild.tool.c.compiler.input.c.1379775354" superClass="com.st.stm32cube.ide.mcu.gnu.managedbuild.tool.c.compiler.input.c"/>
 							</tool>

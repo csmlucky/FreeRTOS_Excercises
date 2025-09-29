@@ -54,6 +54,8 @@ TaskHandle_t menu_Handle, led_Handle, printTask_Handle, rtc_Handle, commandTask_
 QueueHandle_t  printQue_Handle, commandQue_Handle;
 TimerHandle_t  ledEffectTimer_Handle[4];
 
+TimerHandle_t rtc_timer;
+
 state_t current_task_state = sMainMenu;
 
 volatile uint8_t cmd_data;
@@ -70,6 +72,7 @@ void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart);
 extern  void SEGGER_UART_init(uint32_t);
 
 void led_effect_callback(TimerHandle_t  xTimer);
+void rtc_report_callback( TimerHandle_t xTimer );
 /* USER CODE END PFP */
 
 /* Private user code ---------------------------------------------------------*/
@@ -147,6 +150,8 @@ int main(void)
   for(int i=0; i<4; i++){
 	  ledEffectTimer_Handle[i] = xTimerCreate("led-timer", pdMS_TO_TICKS(500),  pdTRUE, (void *)(i+1), led_effect_callback);
   }
+  rtc_timer = xTimerCreate ("rtc_report_timer",pdMS_TO_TICKS(1000),pdTRUE,NULL,rtc_report_callback);
+
   /* Enable UART2 Rx Interrrupt */
   HAL_UART_Receive_IT(&huart2, (uint8_t *)&cmd_data, 1);
 
@@ -338,6 +343,13 @@ static void MX_GPIO_Init(void)
 }
 
 /* USER CODE BEGIN 4 */
+
+void rtc_report_callback( TimerHandle_t xTimer )
+{
+	 show_time_date_itm();
+
+}
+
 
 void led_effect_callback(TimerHandle_t  xTimer){
 	int id;

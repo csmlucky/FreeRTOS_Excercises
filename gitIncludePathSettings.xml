@@ -2,21 +2,20 @@
 <cdtprojectproperties>
   <section name="org.eclipse.cdt.internal.ui.wizards.settingswizards.IncludePaths">
     <language id="org.eclipse.cdt.core.assembly" name="s,S">
-      <includepath>D:\STM32CubeIDE\FreeRTOS\FreeRTOS_Workspace\Common\ThirdParty\SEGGER\SEGGER</includepath>
-      <includepath>D:\STM32CubeIDE\FreeRTOS\FreeRTOS_Workspace\Common\ThirdParty\SEGGER\Config</includepath>
+      <includepath>D:\STM32CubeIDE\FreeRTOS\FreeRTOS_Excercises\Common\ThirdParty\SEGGER\Config</includepath>
+      <includepath>D:\STM32CubeIDE\FreeRTOS\FreeRTOS_Excercises\Common\ThirdParty\SEGGER\SEGGER</includepath>
     </language>
     <language id="org.eclipse.cdt.core.gcc" name="C Source File">
       <includepath>Core/Inc</includepath>
-      <includepath>D:\STM32CubeIDE\FreeRTOS\FreeRTOS_Workspace\Common\ThirdParty\FreeRTOS</includepath>
       <includepath>Drivers/STM32F4xx_HAL_Driver/Inc</includepath>
       <includepath>Drivers/STM32F4xx_HAL_Driver/Inc/Legacy</includepath>
       <includepath>Drivers/CMSIS/Device/ST/STM32F4xx/Include</includepath>
       <includepath>Drivers/CMSIS/Include</includepath>
-      <includepath>D:\STM32CubeIDE\FreeRTOS\FreeRTOS_Workspace\Common\ThirdParty\FreeRTOS\include</includepath>
-      <includepath>D:\STM32CubeIDE\FreeRTOS\FreeRTOS_Workspace\Common\ThirdParty\FreeRTOS\portable\GCC\ARM_CM4F</includepath>
-      <includepath>D:\STM32CubeIDE\FreeRTOS\FreeRTOS_Workspace\Common\ThirdParty\SEGGER\Config</includepath>
-      <includepath>D:\STM32CubeIDE\FreeRTOS\FreeRTOS_Workspace\Common\ThirdParty\SEGGER\OS</includepath>
-      <includepath>D:\STM32CubeIDE\FreeRTOS\FreeRTOS_Workspace\Common\ThirdParty\SEGGER\SEGGER</includepath>
+      <includepath>D:\STM32CubeIDE\FreeRTOS\FreeRTOS_Excercises\Common\ThirdParty\FreeRTOS\include</includepath>
+      <includepath>D:\STM32CubeIDE\FreeRTOS\FreeRTOS_Excercises\Common\ThirdParty\SEGGER\SEGGER</includepath>
+      <includepath>D:\STM32CubeIDE\FreeRTOS\FreeRTOS_Excercises\Common\ThirdParty\SEGGER\OS</includepath>
+      <includepath>D:\STM32CubeIDE\FreeRTOS\FreeRTOS_Excercises\Common\ThirdParty\SEGGER\Config</includepath>
+      <includepath>D:\STM32CubeIDE\FreeRTOS\FreeRTOS_Excercises\Common\ThirdParty\FreeRTOS\portable\GCC\ARM_CM4F</includepath>
     </language>
     <language name="Object File"/>
   </section>

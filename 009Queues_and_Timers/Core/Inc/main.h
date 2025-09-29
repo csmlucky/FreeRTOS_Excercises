@@ -37,6 +37,8 @@ extern "C" {
 #include "timers.h"
 #include <string.h>
 
+#include <stdio.h>
+
 /* USER CODE END Includes */
 
 /* Exported types ------------------------------------------------------------*/
@@ -69,8 +71,24 @@ extern state_t current_task_state;
 extern TaskHandle_t menu_Handle, led_Handle, printTask_Handle, rtc_Handle, commandTask_Handle;
 extern QueueHandle_t  printQue_Handle, commandQue_Handle;
 extern TimerHandle_t  ledEffectTimer_Handle[4];
+extern TimerHandle_t rtc_timer;
 
 extern UART_HandleTypeDef huart2;
+extern RTC_HandleTypeDef hrtc;
+
+enum {
+    RTC_HEADER,
+    RTC_MENU,
+    RTC_HOUR,
+    RTC_MIN,
+    RTC_SEC,
+    RTC_DATE,
+    RTC_MONTH,
+    RTC_DOW,
+    RTC_YEAR,
+    RTC_CONF_OK,
+    RTC_REPORT_PROMPT
+};
 /* USER CODE END EM */
 
 /* Exported functions prototypes ---------------------------------------------*/
@@ -90,6 +108,12 @@ void LED_effect2(void);
 void LED_effect3(void);
 void LED_effect4(void);
 
+
+void show_time_date(void);
+void show_time_date_itm(void);
+void rtc_configure_time(RTC_TimeTypeDef *time);
+void rtc_configure_date(RTC_DateTypeDef *date);
+int validate_rtc_information(RTC_TimeTypeDef *time , RTC_DateTypeDef *date);
 
 /* USER CODE END EFP */
 
@@ -116,6 +140,15 @@ void LED_effect4(void);
 #define SWO_GPIO_Port GPIOB
 
 /* USER CODE BEGIN Private defines */
+
+#define HH_CONFIG 		0
+#define MM_CONFIG 		1
+#define SS_CONFIG 		2
+
+#define DATE_CONFIG 	0
+#define MONTH_CONFIG 	1
+#define YEAR_CONFIG 	2
+#define DAY_CONFIG 		3
 
 /* USER CODE END Private defines */
 
